@@ -19,6 +19,14 @@ def collect_three_lines(vocab_url):
     return three_line_summary
 
 
+def make_vocab_to_def_json(vocab_url):
+    definition = collect_three_lines(vocab_url)
+    vocabulary = vocab_url.split("/")[-1].replace(".asp", "")
+    json = {"vocabulary": vocabulary, "definition": definition, "url": vocab_url}
+    print(json)
+    return json
+
+
 def listup_terms(scrape_url):
     VOCAB_BASE_URL = "https://www.investopedia.com/terms/"
     empty_list = []
@@ -55,4 +63,4 @@ def listup_all_terms():
 
 
 # listup_terms("https://www.investopedia.com/terms-beginning-with-b-4769352")
-collect_three_lines("https://www.investopedia.com/terms/b/buyersmarket.asp")
+make_vocab_to_def_json("https://www.investopedia.com/terms/b/buyersmarket.asp")
