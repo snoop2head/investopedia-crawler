@@ -6,7 +6,11 @@ import pandas as pd
 import string
 
 
-def terms_listup(scrape_url):
+def collect_three_lines(vocab_url):
+    return
+
+
+def listup_terms(scrape_url):
     empty_list = []
     alphabet = scrape_url.split("-")[-2]
     print(alphabet)
@@ -19,14 +23,14 @@ def terms_listup(scrape_url):
         # print(href_item)
         term_url = "https://www.investopedia.com/terms/" + alphabet
         if term_url in href_item:
-            print(href_item)
+            # print(href_item)
             empty_list.append(href_item)
             vocab_url_list = empty_list
-    print(vocab_url_list)
+    # print(vocab_url_list)
     return vocab_url_list
 
 
-def all_terms_listup():
+def listup_all_terms():
     alphabet_list = string.ascii_lowercase
     for alphabet in alphabet_list:
         index_no_int = 4769351 + alphabet_list.index(alphabet)
@@ -36,4 +40,4 @@ def all_terms_listup():
     return
 
 
-terms_listup("https://www.investopedia.com/terms-beginning-with-b-4769352")
+# terms_listup("https://www.investopedia.com/terms-beginning-with-b-4769352")
