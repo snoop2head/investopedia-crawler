@@ -62,4 +62,4 @@ def listup_all_terms():
 
 
 # listup_terms("https://www.investopedia.com/terms-beginning-with-b-4769352")
-make_vocab_to_def_json("https://www.investopedia.com/terms/b/buyersmarket.asp")
+# make_vocab_to_def_json("https://www.investopedia.com/terms/b/buyersmarket.asp")
