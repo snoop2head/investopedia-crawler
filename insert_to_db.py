@@ -40,5 +40,12 @@ def insert_with_looping(exception_alphabet):
         )
 
 
+# testing collection connection
+db = client.get_database("vocab")
+vocab_terms_mongodb = db.vocab_terms
+all_documents_no = vocab_terms_mongodb.count_documents({})
+print("Currently total " + all_documents_no + " exists in database")
+
+# commence functions
 # insert_one_alphabet_term_to_db("a")
-insert_with_looping("a")
+# insert_with_looping("a")
