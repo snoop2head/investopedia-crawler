@@ -13,12 +13,15 @@ def collect_term(vocab_url):
     three_summary_div = soup.find(
         "div", {"class": "comp mntl-sc-block-callout-body mntl-text-block"}
     )
-    # print(three_summary_div)
-    three_line_summary = three_summary_div.get_text()
+    if three_summary_div is None:
+        three_line_summary = "No Definition Available"
+    if three_summary_div is not None:
+        # print(three_summary_div)
+        three_line_summary = three_summary_div.get_text()
     return three_line_summary
 
 
-def term_to_json(vocab_url):
+def collect_term_json(vocab_url):
     definition = collect_term(vocab_url)
     vocabulary = vocab_url.split("/")[-1].replace(".asp", "")
     json = {"vocabulary": vocabulary, "definition": definition, "url": vocab_url}
@@ -54,20 +57,3 @@ def listup_vocabs_under_alphabet(alphabet: str) -> list:
             vocab_url_list = empty_list
     print(vocab_url_list)
     return vocab_url_list
-
-
-def alphabets_urls_for_loop():
-    empty_list = []
-    INDEX_NO = 4769351
-    alphabet_list = string.ascii_lowercase
-    for alphabet in alphabet_list:
-        index_no_int = INDEX_NO + alphabet_list.index(alphabet)
-        index_no_str = str(index_no_int)
-        terms_url = f"https://www.investopedia.com/terms-beginning-with-{alphabet}-{index_no_str}"
-        print(terms_url)
-        empty_list.append(terms_url)
-        alphabet_url_list = empty_list
-    return alphabet_url_list
-
-
-listup_vocabs_under_alphabet("b")
