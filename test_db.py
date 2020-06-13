@@ -13,7 +13,6 @@ client = pymongo.MongoClient(MONGO_URL)
 vocab_db = client.get_database("vocab")
 vocab_terms_collection = vocab_db.vocab_terms
 
-"""
 # testing database connection
 db = client.test
 print(db)
@@ -23,9 +22,7 @@ db = client.get_database("vocab")
 vocab_terms_mongodb = db.vocab_terms
 all_documents_no = vocab_terms_mongodb.count_documents({})
 print(all_documents_no)
-"""
 
-"""
 # insert a test document at the collection
 new_term = {"name": "namaewa?", "url": "localhost"}
 vocab_terms_collection.insert_one(new_term)
@@ -42,17 +39,18 @@ new_terms = [
     {"name": "taki-kun!", "url": "localhost"},
 ]
 vocab_terms_collection.insert_many(new_terms)
-"""
-
-"""
-# find all documents from mongodb atlas
-all_docs = list(vocab_terms_collection.find())
-print(all_docs, type(all_docs))
 
 # find individual documents from mongodb atlas
 one_doc = vocab_terms_collection.find_one({"vocabulary": "buyersmarket"})
 print(one_doc)
-"""
 
-"""
-"""
+# find all documents from mongodb atlas
+all_docs = list(vocab_terms_collection.find())
+print(all_docs, type(all_docs))
+
+# update a single document
+one_update = {"vocabulary": "sellersmarket"}
+vocab_terms_collection.update_one({"vocabulary": "buyersmarket"}, {"$set": one_update})
+
+# delete a single document
+vocab_terms_collection.delete_one({"vocabulary": "sellersmarket"})
