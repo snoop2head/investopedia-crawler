@@ -5,7 +5,7 @@ import lxml
 import string
 
 
-def collect_three_lines(vocab_url):
+def collect_term(vocab_url):
     # get page content response from the web using requests and beautifulsoup
     res = requests.get(vocab_url)
     soup = BeautifulSoup(res.content, "lxml")
@@ -18,19 +18,28 @@ def collect_three_lines(vocab_url):
     return three_line_summary
 
 
-def make_vocab_to_def_json(vocab_url):
-    definition = collect_three_lines(vocab_url)
+def term_to_json(vocab_url):
+    definition = collect_term(vocab_url)
     vocabulary = vocab_url.split("/")[-1].replace(".asp", "")
     json = {"vocabulary": vocabulary, "definition": definition, "url": vocab_url}
     print(json)
     return json
 
 
-def listup_terms(scrape_url):
-    VOCAB_BASE_URL = "https://www.investopedia.com/terms/"
+def listup_vocabs_under_alphabet(alphabet: str) -> list:
+    INDIVIDUAL_VOCAB_BASE_URL = "https://www.investopedia.com/terms/"
+    INDEX_NO = 4769351
+    alphabet_list = string.ascii_lowercase
     empty_list = []
-    alphabet = scrape_url.split("-")[-2]
-    print(alphabet)
+
+    # scraping url based on alphabet
+    index_no_int = INDEX_NO + alphabet_list.index(alphabet)
+    index_no_str = str(index_no_int)
+    scrape_url = (
+        f"https://www.investopedia.com/terms-beginning-with-{alphabet}-{index_no_str}"
+    )
+    print(scrape_url)
+
     # get page content response from the web using requests and beautifulsoup
     res = requests.get(scrape_url)
     soup = BeautifulSoup(res.content, "lxml")
@@ -38,16 +47,16 @@ def listup_terms(scrape_url):
     for item in soup.find_all("a", href=True):
         href_item = item["href"]
         # print(href_item)
-        vocab_url = VOCAB_BASE_URL + alphabet
+        vocab_url = INDIVIDUAL_VOCAB_BASE_URL + alphabet
         if vocab_url in href_item:
             # print(href_item)
             empty_list.append(href_item)
             vocab_url_list = empty_list
-    # print(vocab_url_list)
+    print(vocab_url_list)
     return vocab_url_list
 
 
-def listup_all_terms():
+def alphabets_urls_for_loop():
     empty_list = []
     INDEX_NO = 4769351
     alphabet_list = string.ascii_lowercase
@@ -61,5 +70,4 @@ def listup_all_terms():
     return alphabet_url_list
 
 
-# listup_terms("https://www.investopedia.com/terms-beginning-with-b-4769352")
-# make_vocab_to_def_json("https://www.investopedia.com/terms/b/buyersmarket.asp")
+listup_vocabs_under_alphabet("b")
