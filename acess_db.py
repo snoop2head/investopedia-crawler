@@ -9,6 +9,10 @@ print("Connecting MongoDB Atlas to: " + MONGO_URL)
 # accessing MongoDB Atlas with pymongo MongoClient
 client = pymongo.MongoClient(MONGO_URL)
 
+# connect to the mongodb atlas database and collection
+vocab_db = client.get_database("vocab")
+vocab_terms_collection = vocab_db.vocab_terms
+
 """
 # testing database connection
 db = client.test
@@ -19,10 +23,18 @@ db = client.get_database("vocab")
 vocab_terms_mongodb = db.vocab_terms
 all_documents_no = vocab_terms_mongodb.count_documents({})
 print(all_documents_no)
+"""
 
+"""
 # insert a test document at the collection
 new_term = {"name": "namaewa?", "url": "localhost"}
 vocab_terms_collection.insert_one(new_term)
+
+# insert investopedia data to the mongodb atlas
+test_json_document = make_vocab_to_def_json(
+    "https://www.investopedia.com/terms/b/buyersmarket.asp"
+)
+vocab_terms_collection.insert_one(test_json_document)
 
 # insert multiple test documents at the collection
 new_terms = [
@@ -32,12 +44,15 @@ new_terms = [
 vocab_terms_collection.insert_many(new_terms)
 """
 
-# connect to the mongodb atlas database and collection
-vocab_db = client.get_database("vocab")
-vocab_terms_collection = vocab_db.vocab_terms
+"""
+# find all documents from mongodb atlas
+all_docs = list(vocab_terms_collection.find())
+print(all_docs, type(all_docs))
 
-# insert investopedia data to the mongodb atlas
-test_json_document = make_vocab_to_def_json(
-    "https://www.investopedia.com/terms/b/buyersmarket.asp"
-)
-vocab_terms_collection.insert_one(test_json_document)
+# find individual documents from mongodb atlas
+one_doc = vocab_terms_collection.find_one({"vocabulary": "buyersmarket"})
+print(one_doc)
+"""
+
+"""
+"""
